@@ -1,26 +1,29 @@
 import java.util.Scanner;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Main {
 
     private static HashMap<String, String> credentials = new HashMap<String, String>();
-    private static ArrayList<Classroom> classes = new ArrayList<Classroom>(); 
+    private static ArrayList<Classroom> classes = new ArrayList<Classroom>();
 
     public static void main(String[] args) {
+
+        Scanner in = new Scanner(System.in);
 
         loadCredentials();
 
         createTitle("Welcome to the School Board Database!");
 
-        if (userAuth()) {
-            System.out.println("voila!");
-        } else {
-            System.out.println("access restricted");
+        if (!userAuth()) {
+            System.out.println("Access Restricted.");
+            return;
         }
 
-        // delay(1000);
+        int classroomChoice = presentClassroomOptions(in);
 
-        // System.out.println("Test");
+        classroomAction(in, classroomChoice);
+
     }
 
     public static void delay(int milliSeconds) {
@@ -67,18 +70,17 @@ public class Main {
 
         Scanner in = new Scanner(System.in);
 
-        System.out.println("Username: ");
+        System.out.print("Username: ");
         String user = in.nextLine();
 
+        delay(1000);
+
         if (!userExists(user)) {
-            // if false:
             // sorry, user does not exist;
-            System.out
-                    .println("Sorry! You're profile has not been added to our collection yet. Please try again later.");
             return false;
         }
 
-        System.out.println("Password: ");
+        System.out.print("Password: ");
         String pass = in.nextLine();
 
         int attemptCounter = 3;
@@ -87,9 +89,10 @@ public class Main {
                 return true;
             } else {
                 attemptCounter--;
+                delay(1000);
                 System.out.println("Password was incorrect. You have " + attemptCounter + " more attempt(s).");
                 delay(1000);
-                System.out.println("Password: ");
+                System.out.print("Password: ");
                 pass = in.nextLine();
             }
         }
@@ -107,4 +110,55 @@ public class Main {
         return false;
 
     }
+
+    public static int presentClassroomOptions(Scanner in) {
+
+        System.out.println("Welcome! What would you like to do today?");
+        System.out.println("1. Add Classroom\n2. Remove Classroom\n3. View Classrooms");
+        System.out.print("> ");
+        int classroomChoice = in.nextInt();
+
+        while (!(classroomChoice > 0 && classroomChoice < 4)) {
+            delay(1000);
+            System.out.println("Invalid option. Please try again!");
+            delay(1000);
+            System.out.println("1. Add Classroom\n2. Remove Classroom\n3. View Classrooms");
+            System.out.print("> ");
+            classroomChoice = in.nextInt();
+        }
+
+        return classroomChoice;
+    }
+
+    public static void classroomAction(Scanner in, int classroomChoice) {
+
+        if (classroomChoice == 1) {
+            addClassroom(in);
+        } else if (classroomChoice == 2) {
+            removeClassroom(in);
+        } else {
+            viewClassrooms();
+        }
+
+    }
+
+    public static void addClassroom(Scanner in) {
+
+    }
+
+    public static void removeClassroom(Scanner in) {
+        if (!classes.size() > 1) {
+            System.out.println("There are no classrooms to remove!");
+            return;
+        }
+    }
+
+    public static void viewClassrooms() {
+        if (!classes.size() > 1) {
+            System.out.println("There are no classrooms to remove!");
+            return;
+        }
+
+    }
+
 }
