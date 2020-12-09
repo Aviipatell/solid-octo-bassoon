@@ -144,6 +144,48 @@ public class Main {
 
     public static void addClassroom(Scanner in) {
 
+        System.out.print("Add Teacher: ");
+        String teacher = in.nextLine();
+        delay(1000);
+        System.out.print("Add Course: ");
+        String course = in.nextLine();
+        System.out.print("How many students: ");
+        int numStudents = in.nextInt();
+
+        ArrayList<Student> students = new ArrayList<String>();
+        String studentName = "";
+        int studentAge = 0;
+        double studentAverage = 0.0;
+
+        for (int i = 0; i < numStudents; i++) {
+            System.out.println("-- Student " + i + 1 + " --");
+            System.out.print("Student Name: ");
+            studentName = in.nextLine();
+            System.out.print("Student Age: ");
+            studentAge = in.nextInt();
+
+            while (!(studentAge > 0 && studentAge < 123)) {
+                System.out.println("Invalid Age. Try Again.");
+                System.out.print("Student Age: ");
+                studentAge = in.nextInt();
+            }
+
+            System.out.print("Student Average: ");
+            studentAverage = in.nextDouble();
+
+            while (!(studentAverage >= 0 && studentAverage <= 100)) {
+                System.out.println("Invalid Average. Try Again.");
+                System.out.print("Student Average: ");
+                studentAverage = in.nextDouble();
+            }
+
+            Student s = new Student(studentName, studentAge, studentAverage);
+            students.add(s);
+
+        }
+
+        Classroom c = new Classroom();
+
     }
 
     public static void removeClassroom(Scanner in) {
@@ -151,12 +193,37 @@ public class Main {
             System.out.println("There are no classrooms to remove!");
             return;
         }
+
+        viewClassrooms();
+
+        System.out.print("Which classroom would you like to remove?");
+        int removeOption = in.nextInt();
+
+        while (!(removeOption > 0 && removeOption <= classrooms.size())) {
+            if (classrooms.size() == 1) {
+                System.out.println("Invalid option. You only have one class to delete. To delete, press 1.");
+            } else {
+                System.out.println("Invalid option. Pick a number between 1 and " + classrooms.size() + ".");
+            }
+
+            delay(1000);
+            System.out.print("Which classroom would you like to remove?");
+            removeOption = in.nextInt();
+        }
+
+        delay(1000);
+        classrooms.remove(removeOption - 1);
+        System.out.println("Classroom deleted.");
     }
 
     public static void viewClassrooms() {
         if (!classes.size() > 1) {
             System.out.println("There are no classrooms to remove!");
             return;
+        }
+
+        for (int i = 0; i < classrooms.size(); i++) {
+            System.out.println((i + 1) + ": \n" + classrooms.get(i));
         }
 
     }
