@@ -32,7 +32,7 @@ public class Classroom {
     }
 
     public void setStudents() {
-
+        this.students = students;
     }
 
     public void setCourse(String course) {
@@ -57,6 +57,38 @@ public class Classroom {
 
     public int getRoomNum() {
         return this.roomNum;
+    }
+
+    // Specific Methods
+    public String displayStudents() {
+        if (students.size() < 1) {
+            return "No students to display.";
+        }
+
+        for (int i = 0; i < students.size(); i++) {
+            System.out.println(Students.get(i));
+        }
+    }
+
+    public String toString() {
+        System.out.println(teacher.getName() + " (" + teacher.getProfessionalTitle() + ")");
+        displayStudents();
+    }
+
+    public int getClassAverage() {
+        if (students.size() < 1) {
+            return 0;
+        }
+
+        double total = 0;
+
+        for (Student student : students) {
+            total += student.getAverage();
+        }
+
+        double average = total / students.size();
+
+        return average;
     }
 
 }
